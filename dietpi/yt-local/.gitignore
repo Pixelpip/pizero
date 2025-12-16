@@ -1,0 +1,15 @@
+__pycache__/
+*$py.class
+debug/
+data/
+python/
+release/
+yt-local/
+banned_addresses.txt
+settings.txt
+get-pip.py
+latest-dist.zip
+*.7z
+*.zip
+*venv*
+flycheck_*

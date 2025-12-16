@@ -1,0 +1,22 @@
+:root {
+    --background:           #121113;
+    --text:                 #FFFFFF;
+    --secondary-hover:      #222222;
+    --secondary-focus:      #121113;
+    --secondary-inverse:    #FFFFFF;
+    --primary-background:   #242424;
+    --secondary-background: #222222;
+    --thumb-background:     #222222;
+    --link:                 #00B0FF;
+    --link-visited:         #40C4FF;
+    --border-bg:            #222222;
+    --border-bg-settings:   #000000;
+    --border-bg-license:    #000000;
+    --buttom:               #121113;
+    --buttom-text:          #FFFFFF;
+    --button-border:        #222222;
+    --buttom-hover:         #222222;
+    --search-text:          #FFFFFF;
+    --time-background:      #121113;
+    --time-text:            #FFFFFF;
+}

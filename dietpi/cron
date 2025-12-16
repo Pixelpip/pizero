@@ -1,0 +1,4 @@
+# Run yt-local on boot, changing directory first
+@reboot cd /home/dietpi/yt-local && /home/dietpi/yt-local/venv/bin/python server.py &
+@reboot /home/dietpi/yt-local/venv/bin/python3 /home/dietpi/embed/app.py &
+@reboot /home/dietpi/.local/bin/yarr -db /home/dietpi/yarr/yarr.db -addr 0.0.0.0:7070

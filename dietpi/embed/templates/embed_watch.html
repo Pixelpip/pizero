@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Watch purified YouTube videos with no ads. Just focus." />
+    <title>purify video – watch purified YouTube videos with no ads</title>
+
+    <!-- ✅ Google Font: Noto Sans. -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600&display=swap" rel="stylesheet" />
+
+    <!-- ✅ Google Material Icons: Light Mode & Dark Mode. -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link rel="icon" sizes="48x48" type="image/png" href="https://assets.raspberrypi.com/favicon.png">
+    <style>
+        /* ===================
+       Colors palette.
+    ====================== */
+        :root {
+            --bg-light: #f4f4f5;
+            --text-light: #1f1f1f;
+            --bg-dark: #1e1e20;
+            --text-dark: #dcdcdc;
+            --primary: #46aae9;
+            --input-bg: #ffffff;
+            --input-border: #ced4da;
+        }
+
+        /* ===================
+       Themes.
+    ====================== */
+        [data-theme="dark"] {
+            background-color: var(--bg-dark);
+            color: var(--text-dark);
+        }
+
+        [data-theme="light"] {
+            background-color: var(--bg-light);
+            color: var(--text-light);
+        }
+
+        /* ===================
+       Fonts.
+    ====================== */
+        * {
+            box-sizing: border-box;
+            font-family: 'Noto Sans', 'Segoe UI', Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* ===================
+       Layout.
+    ====================== */
+        header,
+        footer,
+        section {
+            max-width: 1200px;
+            margin: auto;
+            padding: 2rem 1rem;
+            text-align: center;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+
+        nav a {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            color: var(--text-light);
+            /* Default for light theme */
+        }
+
+        [data-theme="dark"] nav a {
+            color: var(--text-dark);
+            background: rgba(30, 30, 32, 0.6);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        nav a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            background: var(--primary);
+            color: white;
+            border-color: transparent;
+            text-decoration: none;
+        }
+
+        nav img {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            object-fit: contain;
+        }
+
+        header {
+            background: transparent;
+        }
+
+        header h1 {
+            font-weight: 800;
+            letter-spacing: -0.05em;
+            font-size: 3rem;
+            background: linear-gradient(135deg, var(--primary), #8e2de2);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            border-bottom: none;
+            margin-bottom: 0.25rem;
+        }
+
+        header h2 {
+            font-size: 1.25rem;
+            color: #666;
+            font-weight: 400;
+            margin-bottom: 2rem;
+        }
+
+        [data-theme="dark"] header h2 {
+            color: #aaa;
+        }
+
+        .iframe {
+            max-width: 100%;
+            width: 90%;
+            /* Increased width */
+            aspect-ratio: 16 / 9;
+            padding: 0;
+            display: none;
+            margin: 2rem auto;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* ===================
+       Input and buttons.
+    ====================== */
+        form {
+            display: flex;
+            justify-content: center;
+            max-width: 600px;
+            margin: 0 auto;
+            gap: 0.5rem;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            border: 2px solid transparent;
+            background-color: var(--input-bg);
+            color: var(--text-light);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        [data-theme="dark"] input[type="text"] {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text-dark);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(70, 170, 233, 0.2);
+        }
+
+        button {
+            margin-left: 0;
+            padding: 0 2rem;
+            font-size: 1.1rem;
+            background: linear-gradient(135deg, var(--primary), #2980b9);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(70, 170, 233, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(70, 170, 233, 0.6);
+        }
+
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        a:hover {
+            color: #8e2de2;
+        }
+
+        /* ===================
+       Responsive.
+    ====================== */
+        @media (max-width: 600px) {
+            form {
+                flex-direction: column;
+            }
+
+            input[type="text"],
+            button {
+                display: block;
+                width: 100%;
+                margin: 0.5rem 0;
+            }
+
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        /* ==========================
+       Toggle switch with icons.
+    ============================= */
+        .theme-toggle {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+
+            display: flex;
+            align-items: center;
+        }
+
+        .icon-label {
+            font-family: 'Material Symbols Outlined', Arial, sans-serif;
+            font-size: 24px;
+            margin: 0 0.5rem;
+            line-height: 1;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            border-radius: 24px;
+            transition: 0.4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            border-radius: 50%;
+            transition: 0.4s;
+        }
+
+        input:checked+.slider {
+            background-color: #666;
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(24px);
+        }
+
+        /* Fallback icons. */
+        .fallback-icon {
+            display: none;
+            font-size: 16px;
+        }
+
+        .material-symbols-outlined:empty+.fallback-icon {
+            display: inline;
+        }
+    </style>
+
+    <script>
+        /**
+         * Set theme based on system.
+         */
+        function setThemeFromPreference() {
+            const saved = localStorage.getItem("theme");
+            const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+            const theme = saved || (prefersDark ? "dark" : "light");
+            document.documentElement.setAttribute("data-theme", theme);
+            document.getElementById("theme-checkbox").checked = theme === "dark";
+        }
+
+        /**
+         * Change the theme and save on localStorage.
+         */
+        function toggleTheme() {
+            const isDark = document.getElementById("theme-checkbox").checked;
+            const newTheme = isDark ? "dark" : "light";
+            document.documentElement.setAttribute("data-theme", newTheme);
+            localStorage.setItem("theme", newTheme);
+        }
+
+        /**
+             * Extract key from URL and start video player.
+         */
+        function purify(path, params) {
+            document.querySelector('.iframe').style.display = 'block';
+            document.querySelector('iframe').setAttribute('src', 'https://www.youtube-nocookie.com/embed/' + path + '?' + params.toString());
+        }
+
+        /**
+         * Autostart on onload event.
+         */
+        function init() {
+            setThemeFromPreference();
+            const params = new URLSearchParams(window.location.search.substring(1));
+            if (params.has('v')) {
+                const url = new URL(params.get('v'));
+                const urlParams = new URLSearchParams(url.search.substring(1));
+                // See https://developers.google.com/youtube/player_parameters for supported parameters
+                const outputParams = new URLSearchParams();
+
+                if (urlParams.has('t')) {
+                    outputParams.append('start', urlParams.get('t'));
+                }
+
+                if (url.hostname == 'youtube.com' || url.hostname.endsWith('.youtube.com')) {
+                    if (urlParams.has('list')) {
+                        outputParams.append('listType', 'playlist');
+                        outputParams.append('list', urlParams.get('list'));
+                    }
+
+                    let id = '';
+                    if (urlParams.has('v')) {
+                        id = urlParams.get('v');
+                    }
+                    purify(id, outputParams);
+                } else if (url.hostname == 'youtu.be') {
+                    const id = url.pathname.substring(1);
+                    purify(id, outputParams);
+                }
+            }
+        }
+
+        window.onload = init;
+    </script>
+</head>
+
+<body>
+    <!-- 🌗 Toggle Switch for Dark/Light mode with fallback icons. -->
+    <div class="theme-toggle">
+        <span class="icon-label">
+            <span class="material-symbols-outlined">light_mode</span>
+            <span class="fallback-icon">☀️</span>
+        </span>
+        <label class="switch">
+            <input type="checkbox" id="theme-checkbox" onchange="toggleTheme()" />
+            <span class="slider"></span>
+        </label>
+        <span class="icon-label">
+            <span class="material-symbols-outlined">dark_mode</span>
+            <span class="fallback-icon">🌙</span>
+        </span>
+    </div>
+
+    <header>
+        <nav>
+            <a href="http://192.168.0.111:9010" target="_blank">
+                <span class="material-symbols-outlined">smart_display</span>
+                yt-local
+            </a>
+            <a href="http://192.168.0.111:7070" target="_blank">
+                <span class="material-symbols-outlined">rss_feed</span>
+                yarr
+            </a>
+            <a href="http://192.168.0.111:8089/admin/" target="_blank">
+               <span class="material-symbols-outlined">dns</span>
+                Pihole
+            </a>
+        </nav>
+
+        <h1>purify video</h1>
+        <h2>Watch purified YouTube videos with no ads. Just focus</h2>
+        <form method="get" action="">
+            <input type="text" name="v" placeholder="Enter YouTube URL" autocomplete="off" />
+            <button type="submit">Purify</button>
+        </form>
+    </header>
+
+    <section class="iframe">
+        <iframe src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </section>
+
+
+    
+</body>
+
+</html>

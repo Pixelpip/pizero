@@ -1,0 +1,40 @@
+name: git-sync-with-mirror
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  git-sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: git-sync
+        env:
+          git_sync_source_repo: git@git.fridu.us:heckyel/yt-local.git
+          git_sync_destination_repo: ssh://git@c.fridu.us/software/yt-local.git
+        if: env.git_sync_source_repo && env.git_sync_destination_repo
+        uses: astounds/git-sync@v1
+        with:
+          source_repo: git@git.fridu.us:heckyel/yt-local.git
+          source_branch: "master"
+          destination_repo: ssh://git@c.fridu.us/software/yt-local.git
+          destination_branch: "master"
+          source_ssh_private_key: ${{ secrets.GIT_SYNC_SOURCE_SSH_PRIVATE_KEY }}
+          destination_ssh_private_key:  ${{ secrets.GIT_SYNC_DESTINATION_SSH_PRIVATE_KEY }}
+
+      - name: git-sync-sourcehut
+        env:
+          git_sync_source_repo: git@git.fridu.us:heckyel/yt-local.git
+          git_sync_destination_repo: git@git.sr.ht:~heckyel/yt-local
+        if: env.git_sync_source_repo && env.git_sync_destination_repo
+        uses: astounds/git-sync@v1
+        with:
+          source_repo: git@git.fridu.us:heckyel/yt-local.git
+          source_branch: "master"
+          destination_repo: git@git.sr.ht:~heckyel/yt-local
+          destination_branch: "master"
+          source_ssh_private_key: ${{ secrets.GIT_SYNC_SOURCE_SSH_PRIVATE_KEY }}
+          destination_ssh_private_key:  ${{ secrets.GIT_SYNC_DESTINATION_SSH_PRIVATE_KEY }}
+        continue-on-error: true
